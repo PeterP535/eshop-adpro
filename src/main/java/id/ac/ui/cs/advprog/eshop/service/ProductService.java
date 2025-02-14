@@ -10,4 +10,6 @@ public interface ProductService {
     // New methods for edit feature
     Product getById(String id);
     Product update(Product product);
+    void delete(String id);
+
 }
