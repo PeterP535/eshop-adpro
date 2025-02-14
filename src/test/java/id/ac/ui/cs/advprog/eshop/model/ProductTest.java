@@ -3,31 +3,29 @@ package id.ac.ui.cs.advprog.eshop.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class ProductTest {
+public class ProductTest {
     Product product;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         this.product = new Product();
-        this.product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        this.product.setProductName("Sampo Cap Bambang");
+        this.product.setProductId("123e4567-e89b-12d3-a456-556642440000");
+        this.product.setProductName("Product 1");
         this.product.setProductQuantity(100);
     }
 
     @Test
-    void testGetProductId() {
-        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", this.product.getProductId());
+    public void testGetProductId() {
+        assert(this.product.getProductId().equals("123e4567-e89b-12d3-a456-556642440000"));
     }
 
     @Test
-    void testGetProductName() {
-        assertEquals("Sampo Cap Bambang", this.product.getProductName());
+    public void testGetProductName() {
+        assert(this.product.getProductName().equals("Product 1"));
     }
 
     @Test
-    void testGetProductQuantity() {
-        assertEquals(100, this.product.getProductQuantity());
+    public void testGetProductQuantity() {
+        assert(this.product.getProductQuantity() == 100);
     }
 }
