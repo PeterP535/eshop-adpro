@@ -1,0 +1,17 @@
+# CODEOWNERS
+
+
+# repositore files
+*       @PeterP535
+
+# main:
+src/main/java/       @PeterP535
+
+# controller:
+src/main/java/id/ac/ui/cs/advprog/eshop/controller/   @PeterP535
+
+# service:
+src/main/java/id/ac/ui/cs/advprog/eshop/service/   @PeterP535
+
+# github:
+.github/       @PeterP535
