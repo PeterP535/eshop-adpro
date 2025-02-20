@@ -1,0 +1,48 @@
+name: PMD Code Analysis
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+  schedule:
+    - cron: '30 11 * * 1' # Runs every Monday at 11:30 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  analyze-code:
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21 Environment
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Run PMD Analysis
+        id: pmd
+        uses: pmd/pmd-github-action@v2
+        with:
+          pmdVersion: '7.0.0-rc4'   # Ensure PMD supports Java 21
+          rulesets: 'rulesets/java/quickstart.xml'
+          sourcePath: 'src/main/java'
+          analyzeModifiedFilesOnly: false
+          format: 'sarif'
+          outputFile: 'pmd-report.sarif'
+
+      - name: Upload SARIF Report to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: pmd-report.sarif
