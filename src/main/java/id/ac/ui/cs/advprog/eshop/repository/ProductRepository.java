@@ -31,15 +31,18 @@ public class ProductRepository implements IProductRepository {
     }
 
     @Override
-    public void update(Product product) {
+    public Product update(Product product) {
         for (int i = 0; i < productData.size(); i++) {
             if (productData.get(i).getProductId() != null &&
                     productData.get(i).getProductId().equals(product.getProductId())) {
                 productData.set(i, product);
-                break;
+                return product; // ✅ Return the updated product
             }
         }
+        return null; // If product not found
     }
+
+
 
     @Override
     public void delete(String id) {

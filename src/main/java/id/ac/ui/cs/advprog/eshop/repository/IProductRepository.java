@@ -7,6 +7,6 @@ public interface IProductRepository {
     Product create(Product product);
     Iterator<Product> findAll();
     Product findById(String id);
-    void update(Product product);
+    Product update(Product product); // ✅ Now returns the updated product
     void delete(String id);
 }
