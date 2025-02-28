@@ -1,8 +1,7 @@
-// ProductServiceImpl.java
 package id.ac.ui.cs.advprog.eshop.service;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
-import id.ac.ui.cs.advprog.eshop.repository.ProductRepository;
+import id.ac.ui.cs.advprog.eshop.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,17 +12,19 @@ import java.util.Iterator;
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    private final IProductRepository productRepository;
+
     @Autowired
-    private ProductRepository productRepository;
+    public ProductServiceImpl(IProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public Product create(Product product) {
-        // For demonstration, if productId is missing, assign a dummy id:
         if (product.getProductId() == null || product.getProductId().isEmpty()) {
             product.setProductId(java.util.UUID.randomUUID().toString());
         }
-        productRepository.create(product);
-        return product;
+        return productRepository.create(product);
     }
 
     @Override
@@ -49,5 +50,4 @@ public class ProductServiceImpl implements ProductService {
     public void delete(String id) {
         productRepository.delete(id);
     }
-
 }
