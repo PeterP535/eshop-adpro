@@ -2,7 +2,7 @@ package id.ac.ui.cs.advprog.eshop.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -11,21 +11,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderTest {
-
+class OrderTest {
     private List<Product> products;
 
     @BeforeEach
     void setUp() {
         this.products = new ArrayList<>();
-
         Product product1 = new Product();
-        product1.setProductId("c5b58f9f-1c39-460b-88e0-71afef63fdb6");
+        product1.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
         product1.setProductName("Sampo Cap Bambang");
         product1.setProductQuantity(2);
 
         Product product2 = new Product();
-        product2.setProductId("2c462328-63d7-4d59-a8c7-f32db82d5563");
+        product2.setProductId("a2c62328-4a37-4664-83c7-f32db8620155");
         product2.setProductName("Sabun Cap Usep");
         product2.setProductQuantity(1);
 
@@ -34,98 +32,75 @@ public class OrderTest {
     }
 
     @Test
-    void testCreatorOrderEmptyProduct() {
-        // Kosongkan list agar memicu IllegalArgumentException
+    void testCreateOrderEmptyProduct() {
         this.products.clear();
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Order(
-                    "13525256-012a-4c07-b546-51e0b196d70b",
+            Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
                     this.products,
                     1708560000L,
-                    "Safira Sundajat"
-            );
+                    "Safira Sudrajat");
         });
     }
 
     @Test
     void testCreateOrderDefaultStatus() {
-        // Tidak mengirim status -> default "WAITING_PAYMENT"
-        Order order = new Order(
-                "13525256-012a-4c07-b546-51e0b1396d70b",
+        Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
                 this.products,
-                1708560001L,
-                "Safira Sundajat"
-        );
+                1708560000L,
+                "Safira Sudrajat");
 
         assertSame(this.products, order.getProducts());
         assertEquals(2, order.getProducts().size());
         assertEquals("Sampo Cap Bambang", order.getProducts().get(0).getProductName());
         assertEquals("Sabun Cap Usep", order.getProducts().get(1).getProductName());
 
-        assertEquals("13525256-012a-4c07-b546-51e0b1396d70b", order.getId());
-        assertEquals(1708560001L, order.getOrderTime());
-        assertEquals("Safira Sundajat", order.getAuthor());
-        // Cek status default dari enum
-        assertEquals(OrderStatus.WAITING_PAYMENT.getValue(), order.getStatus());
+        assertEquals("13652556-012a-4c07-b546-54eb1396d79b", order.getId());
+        assertEquals(1708560000L, order.getOrderTime());
+        assertEquals("Safira Sudrajat", order.getAuthor());
+        assertEquals("WAITING_PAYMENT", order.getStatus());
     }
 
     @Test
     void testCreateOrderSuccessStatus() {
-        // Mengirim status valid: "SUCCESS"
-        Order order = new Order(
-                "13525256-012a-4c07-b546-51e0b1396d70b",
+        Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
                 this.products,
-                1708560001L,
-                "Safira Sundajat",
-                OrderStatus.SUCCESS.name()
-        );
+                1708560000L,
+                "Safira Sudrajat",
+                "SUCCESS");
 
-        assertEquals(OrderStatus.SUCCESS.name(), order.getStatus());
+        assertEquals("SUCCESS", order.getStatus());
     }
 
     @Test
     void testCreateOrderInvalidStatus() {
-        // Mengirim status string yang bukan bagian enum
         assertThrows(IllegalArgumentException.class, () -> {
-            new Order(
-                    "13525256-012a-4c07-b546-51e0b1396d70b",
+            Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
                     this.products,
-                    1708560001L,
-                    "Safira Sundajat",
-                    "KEUN"
-            );
+                    1708560000L,
+                    "Safira Sudrajat",
+                    "MEOW");
         });
     }
 
     @Test
     void testSetStatusToCancelled() {
-        // Buat order default
-        Order order = new Order(
-                "13525256-012a-4c07-b546-51e0b1396d70b",
+        Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
                 this.products,
-                1708560001L,
-                "Safira Sundajat"
-        );
+                1708560000L,
+                "Safira Sudrajat");
 
-        // Set status valid: "CANCELLED"
-        order.setStatus(OrderStatus.CANCELLED.name());
-        assertEquals(OrderStatus.CANCELLED.name(), order.getStatus());
+        order.setStatus("CANCELLED");
+        assertEquals("CANCELLED", order.getStatus());
     }
 
     @Test
     void testSetStatusToInvalidStatus() {
-        // Buat order default
-        Order order = new Order(
-                "13525256-012a-4c07-b546-51e0b1396d70b",
+        Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
                 this.products,
-                1708560001L,
-                "Safira Sundajat"
-        );
+                1708560000L,
+                "Safira Sudrajat");
 
-        // Set status invalid
-        assertThrows(IllegalArgumentException.class, () -> order.setStatus("MEUW"));
+        assertThrows(IllegalArgumentException.class, () -> order.setStatus("MEOW"));
     }
-
-
 }
